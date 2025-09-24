@@ -3,8 +3,10 @@ import { GameProvider, useGame } from './contexts/GameContext';
 import { useToast } from './hooks/useToast';
 import ErrorBoundary from './components/ErrorBoundary';
 import LoadingSpinner from './components/LoadingSpinner';
-import Header from './components/Header';
-import GameBoard from './components/GameBoard';
+import ResponsiveContainer from './components/ResponsiveContainer';
+import GameInfoSidebar from './components/GameInfoSidebar';
+import MobileInfoBar from './components/MobileInfoBar';
+import DynamicGameBoard from './components/DynamicGameBoard';
 import Keyboard from './components/Keyboard';
 import ResultModal from './components/ResultModal';
 import { ToastContainer } from './components/Toast';
@@ -91,17 +93,18 @@ const GameContent: React.FC = () => {
   const isGameOver = gameState.gameStatus !== 'playing';
 
   return (
-    <div className="app">
-      <Header
+    <ResponsiveContainer className="app">
+      <GameInfoSidebar
         timeToNextHour={gameState.timeToNextHour}
         currentAttempt={gameState.guesses.length}
         maxAttempts={6}
         gameStatus={gameState.gameStatus}
         onNewGame={gameState.timeToNextHour <= 0 ? handleNewGame : undefined}
+        showNewGameButton={gameState.timeToNextHour <= 0}
       />
 
       <main className="game-container">
-        <GameBoard
+        <DynamicGameBoard
           guesses={gameState.guesses}
           currentGuess={gameState.currentGuess}
           feedback={gameState.feedback}
@@ -118,6 +121,13 @@ const GameContent: React.FC = () => {
         />
       </main>
 
+      <MobileInfoBar
+        timeToNextHour={gameState.timeToNextHour}
+        currentAttempt={gameState.guesses.length}
+        maxAttempts={6}
+        gameStatus={gameState.gameStatus}
+      />
+
       <ResultModal
         isOpen={showResultModal}
         gameStatus={gameState.gameStatus as 'won' | 'lost'}
@@ -131,7 +141,7 @@ const GameContent: React.FC = () => {
       />
 
       <ToastContainer toasts={toasts} onRemove={removeToast} />
-    </div>
+    </ResponsiveContainer>
   );
 };
 

@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import type { LetterFeedback } from '../types/game';
 import { getKeyboardLetterStatus } from '../lib/wordEvaluation';
+import { useViewport } from './ResponsiveContainer';
+import { addTouchOptimizedListeners, triggerHapticFeedback } from '../lib/touchOptimization';
 import './Keyboard.css';
 
 interface KeyboardProps {
@@ -26,9 +28,39 @@ const Key: React.FC<KeyProps> = ({
   disabled, 
   className = '' 
 }) => {
+  const keyRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    const keyElement = keyRef.current;
+    if (!keyElement || disabled) return;
+
+    // Add touch-optimized event listeners with haptic feedback
+    const cleanup = addTouchOptimizedListeners(
+      keyElement,
+      () => {
+        onClick();
+        // Provide haptic feedback based on key type
+        if (letter === 'ENTER') {
+          triggerHapticFeedback('medium');
+        } else if (letter === '⌫') {
+          triggerHapticFeedback('light');
+        } else {
+          triggerHapticFeedback('light');
+        }
+      },
+      {
+        hapticFeedback: true,
+        preventDoubleClick: true,
+      }
+    );
+
+    return cleanup;
+  }, [onClick, disabled, letter]);
+
   return (
     <button
-      className={`keyboard-key ${status} ${className}`}
+      ref={keyRef}
+      className={`keyboard-key ${status} ${className} interactive`}
       onClick={onClick}
       disabled={disabled}
       data-testid={`keyboard-key-${letter}`}
@@ -52,6 +84,7 @@ export const Keyboard: React.FC<KeyboardProps> = ({
   currentGuess,
   maxGuessLength
 }) => {
+  const viewport = useViewport();
   const letterStatuses = getKeyboardLetterStatus(allFeedback);
   
   const handleKeyClick = (key: string) => {
@@ -120,8 +153,16 @@ export const Keyboard: React.FC<KeyboardProps> = ({
     );
   };
 
+  const keyboardClasses = [
+    'keyboard',
+    viewport.isMobile && 'mobile',
+    viewport.isTablet && 'tablet',
+    viewport.isDesktop && 'desktop',
+    viewport.orientation,
+  ].filter(Boolean).join(' ');
+
   return (
-    <div className="keyboard" data-testid="keyboard">
+    <div className={keyboardClasses} data-testid="keyboard">
       {KEYBOARD_LAYOUT.map((row, rowIndex) => (
         <div key={rowIndex} className="keyboard-row" data-testid={`keyboard-row-${rowIndex}`}>
           {row.map(renderKey)}

@@ -16,6 +16,52 @@
   max-width: 600px;
   margin: 0 auto;
   width: 100%;
+  box-sizing: border-box;
+  /* Ensure content scales properly */
+  min-height: 0;
+  /* Account for sidebar on desktop */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Mobile-specific game container adjustments */
+.app.mobile .game-container {
+  padding: 12px;
+  gap: 12px;
+  justify-content: flex-start;
+  padding-top: 20px;
+}
+
+.app.mobile.landscape .game-container {
+  padding: 8px;
+  gap: 8px;
+  justify-content: center;
+}
+
+/* Tablet-specific adjustments */
+.app.tablet .game-container {
+  padding: 16px;
+  gap: 16px;
+  max-width: 700px;
+  /* Account for sidebar space on larger tablets */
+  margin-left: 180px;
+}
+
+@media (max-width: 1024px) {
+  .app.tablet .game-container {
+    margin-left: auto;
+  }
+}
+
+/* Desktop-specific adjustments */
+.app.desktop .game-container {
+  padding: clamp(12px, 2vh, 24px);
+  gap: clamp(12px, 2vh, 20px);
+  max-width: 800px;
+  /* Dynamic spacing based on viewport height */
+  justify-content: center;
+  /* Account for sidebar space */
+  margin-left: 200px;
 }
 
 .error-container {
@@ -59,18 +105,74 @@
   box-shadow: 0 4px 12px rgba(106, 170, 100, 0.3);
 }
 
+/* Touch-optimized interactive elements */
+.app.mobile button,
+.app.mobile input,
+.app.mobile [role="button"],
+.app.mobile .clickable {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 12px;
+  margin: 4px;
+  border-radius: 8px;
+  font-size: 16px;
+  /* Prevent zoom on iOS */
+  touch-action: manipulation;
+}
+
+.app.mobile button:active,
+.app.mobile [role="button"]:active {
+  transform: scale(0.95);
+  transition: transform 0.1s ease-in-out;
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
   .game-container {
-    padding: 16px;
-    gap: 16px;
+    padding: clamp(8px, 2vw, 16px);
+    gap: clamp(8px, 2vw, 16px);
   }
 }
 
 @media (max-width: 480px) {
   .game-container {
-    padding: 12px;
-    gap: 12px;
+    padding: clamp(6px, 1.5vw, 12px);
+    gap: clamp(6px, 1.5vw, 12px);
+  }
+}
+
+/* Very small screens */
+@media (max-width: 320px) {
+  .game-container {
+    padding: clamp(4px, 1vw, 8px);
+    gap: clamp(4px, 1vw, 8px);
+  }
+}
+
+/* Landscape mobile optimizations */
+@media (max-height: 500px) and (orientation: landscape) {
+  .game-container {
+    padding: clamp(2px, 0.5vh, 6px) clamp(4px, 1vw, 8px);
+    gap: clamp(2px, 0.5vh, 4px);
+    justify-content: center;
+  }
+}
+
+/* Short viewport optimizations */
+@media (max-height: 600px) {
+  .app.desktop .game-container {
+    padding: clamp(6px, 1vh, 12px);
+    gap: clamp(4px, 0.8vh, 8px);
+    justify-content: space-between;
+  }
+}
+
+/* Very short viewports */
+@media (max-height: 400px) {
+  .game-container {
+    padding: clamp(2px, 0.5vh, 4px);
+    gap: clamp(2px, 0.5vh, 4px);
+    justify-content: space-between;
   }
 }
 
@@ -79,16 +181,16 @@
   .app {
     background: linear-gradient(135deg, #1a1a1b 0%, #2d2d2d 100%);
   }
-  
+
   .error-container {
     background: linear-gradient(135deg, #1a1a1b 0%, #2d2d2d 100%);
     color: #d7dadc;
   }
-  
+
   .error-container h2 {
     color: #ff6b6b;
   }
-  
+
   .error-container p {
     color: #818384;
   }
@@ -99,12 +201,12 @@
   .app {
     background: #ffffff;
   }
-  
+
   .error-container {
     background: #ffffff;
     border: 3px solid #000000;
   }
-  
+
   .error-container button {
     background: #00a000;
     border: 2px solid #000000;

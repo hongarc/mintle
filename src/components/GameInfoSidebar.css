@@ -1,0 +1,426 @@
+.game-info-sidebar {
+  position: fixed;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 180px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-left: none;
+  border-radius: 0 12px 12px 0;
+  box-shadow: 2px 0 12px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.sidebar-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.header-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.game-title {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 900;
+  text-align: center;
+  line-height: 1.2;
+  display: flex;
+  justify-content: center;
+  gap: 1px;
+  font-family: 'Arial Black', 'Helvetica', sans-serif;
+  letter-spacing: -1px;
+}
+
+.title-letter {
+  display: inline-block;
+  padding: 2px 3px;
+  border-radius: 3px;
+  font-weight: 900;
+  text-transform: uppercase;
+  transition: all 0.3s ease-in-out;
+  border: 1px solid transparent;
+}
+
+/* Wordle-inspired color scheme for each letter */
+.title-letter.m {
+  background: #6aaa64; /* Green - correct */
+  color: white;
+  border-color: #5a9a54;
+  box-shadow: 0 0 8px rgba(106, 170, 100, 0.4);
+}
+
+.title-letter.i {
+  background: #c9b458; /* Yellow - present */
+  color: white;
+  border-color: #b9a448;
+  box-shadow: 0 0 8px rgba(201, 180, 88, 0.4);
+}
+
+.title-letter.n {
+  background: #787c7e; /* Gray - absent */
+  color: white;
+  border-color: #686c6e;
+  box-shadow: 0 0 8px rgba(120, 124, 126, 0.4);
+}
+
+.title-letter.t {
+  background: #6aaa64; /* Green - correct */
+  color: white;
+  border-color: #5a9a54;
+  box-shadow: 0 0 8px rgba(106, 170, 100, 0.4);
+}
+
+.title-letter.l {
+  background: #c9b458; /* Yellow - present */
+  color: white;
+  border-color: #b9a448;
+  box-shadow: 0 0 8px rgba(201, 180, 88, 0.4);
+}
+
+.title-letter.e {
+  background: #6aaa64; /* Green - correct */
+  color: white;
+  border-color: #5a9a54;
+  box-shadow: 0 0 8px rgba(106, 170, 100, 0.4);
+}
+
+/* Hover effects */
+.title-letter:hover {
+  transform: scale(1.1) rotate(2deg);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  z-index: 1;
+  position: relative;
+}
+
+/* Animation on load */
+@keyframes letterPop {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.title-letter.m { animation: letterPop 0.6s ease-out 0.1s both; }
+.title-letter.i { animation: letterPop 0.6s ease-out 0.2s both; }
+.title-letter.n { animation: letterPop 0.6s ease-out 0.3s both; }
+.title-letter.t { animation: letterPop 0.6s ease-out 0.4s both; }
+.title-letter.l { animation: letterPop 0.6s ease-out 0.5s both; }
+.title-letter.e { animation: letterPop 0.6s ease-out 0.6s both; }
+
+.new-game-button {
+  background: #6aaa64;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  text-align: center;
+}
+
+.new-game-button:hover {
+  background: #5a9a54;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.new-game-button:active {
+  transform: translateY(0);
+}
+
+.info-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.info-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.info-value {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #1a1a1b;
+}
+
+.timer-value {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: 'Courier New', monospace;
+}
+
+.timer-icon {
+  font-size: 0.75rem;
+}
+
+.attempts-value {
+  font-family: 'Courier New', monospace;
+  color: #6aaa64;
+}
+
+.status-badge {
+  font-size: 0.75rem;
+  font-weight: bold;
+  padding: 4px 8px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.status-badge.won {
+  background: rgba(106, 170, 100, 0.2);
+  color: #6aaa64;
+}
+
+.status-badge.lost {
+  background: rgba(220, 53, 69, 0.2);
+  color: #dc3545;
+}
+
+.progress-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.progress-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.progress-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.progress-bar {
+  height: 6px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #6aaa64 0%, #5a9a54 100%);
+  transition: width 0.3s ease-in-out;
+  border-radius: 3px;
+}
+
+.progress-text {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #666;
+  text-align: center;
+}
+
+/* Tablet adjustments */
+@media (max-width: 1024px) {
+  .game-info-sidebar {
+    width: 160px;
+    padding: 12px;
+  }
+  
+  .sidebar-content {
+    gap: 12px;
+  }
+  
+  .info-section {
+    gap: 10px;
+  }
+  
+  .info-label {
+    font-size: 0.7rem;
+  }
+  
+  .info-value {
+    font-size: 0.8rem;
+  }
+}
+
+/* Hide on mobile and small tablets */
+@media (max-width: 768px) {
+  .game-info-sidebar {
+    display: none;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .game-info-sidebar {
+    background: rgba(26, 26, 27, 0.95);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .header-section {
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  /* Title letters maintain their colors in dark mode */
+  .title-letter.m,
+  .title-letter.t,
+  .title-letter.e {
+    background: #6aaa64;
+    border-color: #5a9a54;
+  }
+  
+  .title-letter.i,
+  .title-letter.l {
+    background: #c9b458;
+    border-color: #b9a448;
+  }
+  
+  .title-letter.n {
+    background: #787c7e;
+    border-color: #686c6e;
+  }
+  
+  .new-game-button {
+    background: #6aaa64;
+  }
+  
+  .new-game-button:hover {
+    background: #5a9a54;
+  }
+  
+  .info-label {
+    color: #818384;
+  }
+  
+  .info-value {
+    color: #d7dadc;
+  }
+  
+  .attempts-value {
+    color: #6aaa64;
+  }
+  
+  .progress-bar {
+    background: rgba(255, 255, 255, 0.1);
+  }
+  
+  .progress-text {
+    color: #818384;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .game-info-sidebar {
+    background: #ffffff;
+    border: 3px solid #000000;
+  }
+  
+  .header-section {
+    border-bottom: 2px solid #000000;
+  }
+  
+  /* High contrast colors for title letters */
+  .title-letter.m,
+  .title-letter.t,
+  .title-letter.e {
+    background: #00a000;
+    border: 2px solid #000000;
+    color: #ffffff;
+  }
+  
+  .title-letter.i,
+  .title-letter.l {
+    background: #ffaa00;
+    border: 2px solid #000000;
+    color: #000000;
+  }
+  
+  .title-letter.n {
+    background: #666666;
+    border: 2px solid #000000;
+    color: #ffffff;
+  }
+  
+  .new-game-button {
+    background: #00a000;
+    border: 2px solid #000000;
+  }
+  
+  .new-game-button:hover {
+    background: #008000;
+  }
+  
+  .info-label {
+    color: #000000;
+  }
+  
+  .info-value {
+    color: #000000;
+  }
+  
+  .status-badge.won {
+    background: #00a000;
+    color: #ffffff;
+  }
+  
+  .status-badge.lost {
+    background: #cc0000;
+    color: #ffffff;
+  }
+  
+  .progress-bar {
+    background: #cccccc;
+    border: 1px solid #000000;
+  }
+  
+  .progress-fill {
+    background: #00a000;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .progress-fill {
+    transition: none;
+  }
+  
+  .title-letter {
+    animation: none !important;
+    transition: none;
+  }
+  
+  .title-letter:hover {
+    transform: none;
+  }
+}

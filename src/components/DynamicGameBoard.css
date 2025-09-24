@@ -1,0 +1,266 @@
+.dynamic-game-board {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 8px;
+  position: relative;
+  /* Smooth transitions for size changes */
+  transition: all 0.3s ease-in-out;
+}
+
+.dynamic-game-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dynamic-tile {
+  border: 2px solid #d3d6da;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #1a1a1b;
+  background-color: #ffffff;
+  transition: all 0.2s ease-in-out;
+  user-select: none;
+  border-radius: 4px;
+  /* Ensure crisp rendering */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Tile states */
+.dynamic-tile.empty {
+  border-color: #d3d6da;
+  background-color: #ffffff;
+  color: #1a1a1b;
+}
+
+.dynamic-tile.pending {
+  border-color: #878a8c;
+  background-color: #ffffff;
+  color: #1a1a1b;
+  animation: pop 0.1s ease-in-out;
+  transform: scale(1.05);
+}
+
+.dynamic-tile.correct {
+  border-color: #6aaa64;
+  background-color: #6aaa64;
+  color: #ffffff;
+  box-shadow: 0 2px 4px rgba(106, 170, 100, 0.3);
+}
+
+.dynamic-tile.present {
+  border-color: #c9b458;
+  background-color: #c9b458;
+  color: #ffffff;
+  box-shadow: 0 2px 4px rgba(201, 180, 88, 0.3);
+}
+
+.dynamic-tile.absent {
+  border-color: #787c7e;
+  background-color: #787c7e;
+  color: #ffffff;
+  box-shadow: 0 1px 2px rgba(120, 124, 126, 0.3);
+}
+
+/* Animations */
+.dynamic-tile.animate {
+  animation: flip 0.6s ease-in-out;
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes flip {
+  0% {
+    transform: rotateX(0);
+  }
+  50% {
+    transform: rotateX(90deg);
+  }
+  100% {
+    transform: rotateX(0);
+  }
+}
+
+/* Mobile-specific optimizations */
+.dynamic-game-board[data-viewport-type="mobile"] {
+  padding: 4px;
+}
+
+.dynamic-game-board[data-viewport-type="mobile"] .dynamic-tile {
+  border-width: 1.5px;
+  border-radius: 3px;
+  /* Optimize for touch */
+  touch-action: manipulation;
+}
+
+.dynamic-game-board[data-viewport-type="mobile"] .dynamic-tile.pending {
+  transform: scale(1.03);
+}
+
+/* Tablet-specific optimizations */
+.dynamic-game-board[data-viewport-type="tablet"] {
+  padding: 6px;
+}
+
+.dynamic-game-board[data-viewport-type="tablet"] .dynamic-tile {
+  border-radius: 5px;
+}
+
+/* Desktop-specific optimizations */
+.dynamic-game-board[data-viewport-type="desktop"] {
+  padding: 8px;
+}
+
+.dynamic-game-board[data-viewport-type="desktop"] .dynamic-tile {
+  border-radius: 4px;
+}
+
+.dynamic-game-board[data-viewport-type="desktop"] .dynamic-tile:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .dynamic-tile {
+    border-width: 3px;
+  }
+  
+  .dynamic-tile.correct {
+    background-color: #00a000;
+    border-color: #00a000;
+  }
+  
+  .dynamic-tile.present {
+    background-color: #ffaa00;
+    border-color: #ffaa00;
+    color: #000000;
+  }
+  
+  .dynamic-tile.absent {
+    background-color: #666666;
+    border-color: #666666;
+  }
+  
+  .dynamic-tile.empty {
+    border-color: #000000;
+  }
+  
+  .dynamic-tile.pending {
+    border-color: #000000;
+    background-color: #ffffff;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .dynamic-game-board {
+    transition: none;
+  }
+  
+  .dynamic-tile {
+    transition: none;
+  }
+  
+  .dynamic-tile.animate {
+    animation: none;
+  }
+  
+  .dynamic-tile.pending {
+    animation: none;
+    transform: none;
+  }
+  
+  .dynamic-game-board[data-viewport-type="desktop"] .dynamic-tile:hover {
+    transform: none;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .dynamic-tile.empty {
+    border-color: #565758;
+    background-color: #121213;
+    color: #ffffff;
+  }
+  
+  .dynamic-tile.pending {
+    border-color: #565758;
+    background-color: #121213;
+    color: #ffffff;
+  }
+}
+
+/* Very small screens */
+@media (max-width: 320px) {
+  .dynamic-game-board {
+    padding: 2px;
+  }
+  
+  .dynamic-tile {
+    border-width: 1px;
+    border-radius: 2px;
+  }
+}
+
+/* Large screens */
+@media (min-width: 1200px) {
+  .dynamic-game-board {
+    padding: 12px;
+  }
+}
+
+/* Landscape mobile optimizations */
+@media (max-height: 500px) and (orientation: landscape) {
+  .dynamic-game-board {
+    padding: 2px;
+  }
+  
+  .dynamic-tile {
+    border-width: 1px;
+  }
+}
+
+/* Print styles */
+@media print {
+  .dynamic-game-board {
+    background: white !important;
+    padding: 4px;
+  }
+  
+  .dynamic-tile {
+    border: 2px solid #000000 !important;
+    background: white !important;
+    color: black !important;
+    box-shadow: none !important;
+  }
+  
+  .dynamic-tile.correct {
+    background: #cccccc !important;
+  }
+  
+  .dynamic-tile.present {
+    background: #eeeeee !important;
+  }
+  
+  .dynamic-tile.absent {
+    background: #999999 !important;
+  }
+}

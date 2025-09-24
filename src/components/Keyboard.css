@@ -266,12 +266,58 @@
   }
 }
 
-/* Touch device optimizations */
+/* Enhanced touch device optimizations */
+.keyboard.mobile .keyboard-key {
+  /* Larger touch targets for mobile */
+  min-height: 52px;
+  font-size: 14px;
+  /* Better touch feedback */
+  transition: all 0.1s ease-in-out;
+}
+
+.keyboard.mobile .letter-key {
+  min-width: 36px;
+  max-width: 36px;
+}
+
+.keyboard.mobile .action-key {
+  min-width: 60px;
+  font-size: 11px;
+}
+
+.keyboard.mobile.landscape .keyboard-key {
+  /* Compact for landscape mobile */
+  min-height: 44px;
+  font-size: 12px;
+}
+
+.keyboard.mobile.landscape .letter-key {
+  min-width: 32px;
+  max-width: 32px;
+}
+
+.keyboard.mobile.landscape .action-key {
+  min-width: 50px;
+  font-size: 10px;
+}
+
+.keyboard.tablet .keyboard-key {
+  min-height: 56px;
+  font-size: 15px;
+}
+
+.keyboard.tablet .letter-key {
+  min-width: 45px;
+  max-width: 45px;
+}
+
+.keyboard.tablet .action-key {
+  min-width: 70px;
+  font-size: 13px;
+}
+
+/* Touch device specific styles */
 @media (hover: none) and (pointer: coarse) {
-  .keyboard-key {
-    min-height: 52px;
-  }
-  
   .keyboard-key:hover {
     background-color: inherit;
   }
@@ -290,6 +336,12 @@
   
   .keyboard-key.absent:hover {
     background-color: #787c7e;
+  }
+  
+  /* Enhanced active states for touch */
+  .keyboard-key:active:not(:disabled) {
+    transform: scale(0.92);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
   }
 }
 
