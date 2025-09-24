@@ -1,6 +1,7 @@
 import { getWordDocument, createWordDocument, FirestoreServiceError } from './firestoreService';
 import { getDeterministicSolutionWord, loadDictionary } from './dictionary';
 import { hourIdUtc } from './timeUtils';
+import { encryptWord, decryptWord, generateWordHash } from './encryption';
 import type { WordDocument } from '../types/game';
 
 /**
@@ -14,7 +15,9 @@ export async function getOrCreateHourlyWord(hourId: string): Promise<string> {
     // First, try to get existing word
     const existingDoc = await getWordDocument(hourId);
     if (existingDoc) {
-      return existingDoc.word.toUpperCase();
+      // Decrypt the word from storage
+      const decryptedWord = decryptWord(existingDoc.word, hourId);
+      return decryptedWord.toUpperCase();
     }
 
     // Ensure dictionary is loaded
@@ -23,12 +26,17 @@ export async function getOrCreateHourlyWord(hourId: string): Promise<string> {
     // Generate word deterministically based on hour ID
     const word = getDeterministicSolutionWord(hourId);
 
-    // Create word document
+    // Encrypt the word for storage
+    const encryptedWord = encryptWord(word, hourId);
+    const wordHash = generateWordHash(word, hourId);
+
+    // Create word document with encrypted word
     const wordDoc: WordDocument = {
-      word: word.toLowerCase(),
+      word: encryptedWord,
       createdAt: new Date().toISOString(),
       source: 'client',
-      dictionaryVersion: 'v1'
+      dictionaryVersion: 'v1',
+      hash: wordHash
     };
 
     try {
@@ -41,7 +49,8 @@ export async function getOrCreateHourlyWord(hourId: string): Promise<string> {
       if (error instanceof FirestoreServiceError && error.code === 'already-exists') {
         const existingDoc = await getWordDocument(hourId);
         if (existingDoc) {
-          return existingDoc.word.toUpperCase();
+          const decryptedWord = decryptWord(existingDoc.word, hourId);
+          return decryptedWord.toUpperCase();
         }
       }
       throw error;
@@ -51,7 +60,8 @@ export async function getOrCreateHourlyWord(hourId: string): Promise<string> {
     // Try one more time to read in case someone else created it
     const finalDoc = await getWordDocument(hourId);
     if (finalDoc) {
-      return finalDoc.word.toUpperCase();
+      const decryptedWord = decryptWord(finalDoc.word, hourId);
+      return decryptedWord.toUpperCase();
     }
 
     throw new Error(`Failed to get or create word for hour ${hourId}`);
@@ -111,13 +121,13 @@ export async function preGenerateWords(hoursAhead: number = 24): Promise<string[
  */
 export function validateWordDocument(doc: WordDocument): boolean {
   if (!doc.word || typeof doc.word !== 'string') return false;
-  if (doc.word.length !== 5) return false;
   if (!doc.createdAt || typeof doc.createdAt !== 'string') return false;
   if (!doc.source || typeof doc.source !== 'string') return false;
   if (!doc.dictionaryVersion || typeof doc.dictionaryVersion !== 'string') return false;
   
-  // Validate word contains only letters
-  if (!/^[a-zA-Z]{5}$/.test(doc.word)) return false;
+  // For encrypted words, we can't validate the exact format, but we can check it's Base64-like
+  // Base64 strings should only contain A-Z, a-z, 0-9, +, /, and = for padding
+  if (!/^[A-Za-z0-9+/]+=*$/.test(doc.word)) return false;
   
   // Validate ISO date format
   try {
@@ -128,6 +138,9 @@ export function validateWordDocument(doc: WordDocument): boolean {
   } catch {
     return false;
   }
+  
+  // If hash is present, validate it's a string
+  if (doc.hash !== undefined && typeof doc.hash !== 'string') return false;
   
   return true;
 }
