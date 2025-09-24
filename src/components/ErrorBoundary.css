@@ -1,0 +1,299 @@
+.error-boundary {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.error-content {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 40px;
+  max-width: 500px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.error-icon {
+  font-size: 4rem;
+  margin-bottom: 20px;
+}
+
+.error-title {
+  color: #333;
+  font-size: 1.75rem;
+  font-weight: bold;
+  margin: 0 0 16px 0;
+}
+
+.error-message {
+  color: #666;
+  font-size: 1.125rem;
+  line-height: 1.5;
+  margin: 0 0 32px 0;
+}
+
+.error-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.error-button {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  min-width: 120px;
+}
+
+.error-button.primary {
+  background: #6aaa64;
+  color: white;
+}
+
+.error-button.primary:hover {
+  background: #5a9a54;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(106, 170, 100, 0.3);
+}
+
+.error-button.secondary {
+  background: #f8f9fa;
+  color: #333;
+  border: 2px solid #e9ecef;
+}
+
+.error-button.secondary:hover {
+  background: #e9ecef;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.error-button:active {
+  transform: translateY(0);
+}
+
+.error-details {
+  margin-top: 32px;
+  text-align: left;
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.error-details summary {
+  cursor: pointer;
+  font-weight: bold;
+  color: #666;
+  margin-bottom: 12px;
+}
+
+.error-details summary:hover {
+  color: #333;
+}
+
+.error-stack {
+  font-family: 'Courier New', monospace;
+  font-size: 0.875rem;
+}
+
+.error-stack h4 {
+  margin: 16px 0 8px 0;
+  color: #333;
+  font-size: 1rem;
+}
+
+.error-stack pre {
+  background: #ffffff;
+  border: 1px solid #e9ecef;
+  border-radius: 4px;
+  padding: 12px;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: #d73a49;
+  margin: 0;
+}
+
+/* Responsive design */
+@media (max-width: 480px) {
+  .error-boundary {
+    padding: 16px;
+  }
+  
+  .error-content {
+    padding: 24px;
+  }
+  
+  .error-icon {
+    font-size: 3rem;
+    margin-bottom: 16px;
+  }
+  
+  .error-title {
+    font-size: 1.5rem;
+  }
+  
+  .error-message {
+    font-size: 1rem;
+    margin-bottom: 24px;
+  }
+  
+  .error-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .error-button {
+    width: 100%;
+    max-width: 200px;
+  }
+  
+  .error-details {
+    margin-top: 24px;
+    padding: 12px;
+  }
+  
+  .error-stack {
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .error-content {
+    padding: 20px;
+  }
+  
+  .error-icon {
+    font-size: 2.5rem;
+  }
+  
+  .error-title {
+    font-size: 1.25rem;
+  }
+  
+  .error-message {
+    font-size: 0.875rem;
+  }
+  
+  .error-button {
+    padding: 10px 20px;
+    font-size: 0.875rem;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .error-boundary {
+    background: linear-gradient(135deg, #1a1a1b 0%, #2d2d2d 100%);
+  }
+  
+  .error-content {
+    background: #2d2d2d;
+    color: #d7dadc;
+  }
+  
+  .error-title {
+    color: #d7dadc;
+  }
+  
+  .error-message {
+    color: #818384;
+  }
+  
+  .error-button.secondary {
+    background: #343536;
+    color: #d7dadc;
+    border-color: #565758;
+  }
+  
+  .error-button.secondary:hover {
+    background: #565758;
+  }
+  
+  .error-details {
+    background: #1a1a1b;
+  }
+  
+  .error-details summary {
+    color: #818384;
+  }
+  
+  .error-details summary:hover {
+    color: #d7dadc;
+  }
+  
+  .error-stack h4 {
+    color: #d7dadc;
+  }
+  
+  .error-stack pre {
+    background: #343536;
+    border-color: #565758;
+    color: #ff6b6b;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .error-content {
+    border: 3px solid #000000;
+  }
+  
+  .error-button.primary {
+    background: #00a000;
+    border: 2px solid #000000;
+  }
+  
+  .error-button.secondary {
+    background: #ffffff;
+    color: #000000;
+    border: 2px solid #000000;
+  }
+  
+  .error-details {
+    border: 2px solid #666666;
+  }
+  
+  .error-stack pre {
+    border: 2px solid #000000;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .error-button:hover {
+    transform: none;
+  }
+  
+  .error-button:active {
+    transform: none;
+  }
+}
+
+/* Focus styles for accessibility */
+.error-button:focus {
+  outline: 2px solid #6aaa64;
+  outline-offset: 2px;
+}
+
+.error-button:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.error-details summary:focus {
+  outline: 2px solid #6aaa64;
+  outline-offset: 2px;
+}
+
+.error-details summary:focus:not(:focus-visible) {
+  outline: none;
+}

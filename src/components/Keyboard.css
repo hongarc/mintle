@@ -1,0 +1,314 @@
+.keyboard {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 0 8px;
+  user-select: none;
+}
+
+.keyboard-row {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.keyboard-key {
+  border: none;
+  border-radius: 4px;
+  font-family: inherit;
+  font-weight: bold;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.1s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+  min-height: 58px;
+  background-color: #d3d6da;
+  color: #1a1a1b;
+}
+
+.keyboard-key:hover:not(:disabled) {
+  background-color: #c3c6ca;
+}
+
+.keyboard-key:active:not(:disabled) {
+  background-color: #b3b6ba;
+  transform: scale(0.95);
+}
+
+.keyboard-key:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.keyboard-key:focus {
+  outline: 2px solid #6aaa64;
+  outline-offset: 2px;
+}
+
+.keyboard-key:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Key sizes */
+.letter-key {
+  min-width: 43px;
+  flex: 1;
+  max-width: 43px;
+}
+
+.action-key {
+  min-width: 65px;
+  font-size: 12px;
+}
+
+.enter-key {
+  min-width: 65px;
+}
+
+.backspace-key {
+  min-width: 65px;
+  font-size: 16px;
+}
+
+/* Key states based on game feedback */
+.keyboard-key.unused {
+  background-color: #d3d6da;
+  color: #1a1a1b;
+}
+
+.keyboard-key.correct {
+  background-color: #6aaa64;
+  color: #ffffff;
+}
+
+.keyboard-key.correct:hover:not(:disabled) {
+  background-color: #5a9a54;
+}
+
+.keyboard-key.present {
+  background-color: #c9b458;
+  color: #ffffff;
+}
+
+.keyboard-key.present:hover:not(:disabled) {
+  background-color: #b9a448;
+}
+
+.keyboard-key.absent {
+  background-color: #787c7e;
+  color: #ffffff;
+}
+
+.keyboard-key.absent:hover:not(:disabled) {
+  background-color: #686c6e;
+}
+
+.keyboard-status {
+  margin-top: 12px;
+  text-align: center;
+  font-size: 14px;
+  color: #787c7e;
+}
+
+.guess-progress {
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.ready-indicator {
+  color: #6aaa64;
+  font-size: 12px;
+  font-weight: bold;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+/* Responsive design */
+@media (max-width: 480px) {
+  .keyboard {
+    padding: 0 4px;
+  }
+  
+  .keyboard-row {
+    gap: 4px;
+    margin-bottom: 6px;
+  }
+  
+  .keyboard-key {
+    min-height: 48px;
+    font-size: 12px;
+  }
+  
+  .letter-key {
+    min-width: 32px;
+    max-width: 32px;
+  }
+  
+  .action-key {
+    min-width: 50px;
+    font-size: 10px;
+  }
+  
+  .enter-key {
+    min-width: 50px;
+  }
+  
+  .backspace-key {
+    min-width: 50px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 360px) {
+  .keyboard-row {
+    gap: 3px;
+  }
+  
+  .keyboard-key {
+    min-height: 42px;
+    font-size: 11px;
+  }
+  
+  .letter-key {
+    min-width: 28px;
+    max-width: 28px;
+  }
+  
+  .action-key {
+    min-width: 45px;
+    font-size: 9px;
+  }
+  
+  .enter-key {
+    min-width: 45px;
+  }
+  
+  .backspace-key {
+    min-width: 45px;
+    font-size: 12px;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .keyboard-key.unused {
+    background-color: #818384;
+    color: #ffffff;
+  }
+  
+  .keyboard-key.unused:hover:not(:disabled) {
+    background-color: #717374;
+  }
+  
+  .keyboard-key.unused:active:not(:disabled) {
+    background-color: #616364;
+  }
+  
+  .keyboard-status {
+    color: #d7dadc;
+  }
+  
+  .guess-progress {
+    color: #d7dadc;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .keyboard-key {
+    border: 2px solid #000000;
+  }
+  
+  .keyboard-key.correct {
+    background-color: #00a000;
+    border-color: #00a000;
+  }
+  
+  .keyboard-key.present {
+    background-color: #ffaa00;
+    border-color: #ffaa00;
+  }
+  
+  .keyboard-key.absent {
+    background-color: #666666;
+    border-color: #666666;
+  }
+  
+  .keyboard-key.unused {
+    border-color: #cccccc;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .keyboard-key {
+    transition: none;
+  }
+  
+  .keyboard-key:active:not(:disabled) {
+    transform: none;
+  }
+  
+  .ready-indicator {
+    animation: none;
+  }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .keyboard-key {
+    min-height: 52px;
+  }
+  
+  .keyboard-key:hover {
+    background-color: inherit;
+  }
+  
+  .keyboard-key.unused:hover {
+    background-color: #d3d6da;
+  }
+  
+  .keyboard-key.correct:hover {
+    background-color: #6aaa64;
+  }
+  
+  .keyboard-key.present:hover {
+    background-color: #c9b458;
+  }
+  
+  .keyboard-key.absent:hover {
+    background-color: #787c7e;
+  }
+}
+
+/* Landscape orientation adjustments */
+@media (orientation: landscape) and (max-height: 500px) {
+  .keyboard {
+    padding: 0 4px;
+  }
+  
+  .keyboard-row {
+    margin-bottom: 4px;
+  }
+  
+  .keyboard-key {
+    min-height: 40px;
+    font-size: 11px;
+  }
+  
+  .keyboard-status {
+    margin-top: 8px;
+  }
+}

@@ -1,0 +1,16 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /words/{hourId} {
+      allow read: if true;
+      allow create: if !exists(/databases/$(database)/documents/words/$(hourId));
+      allow update, delete: if false;
+    }
+
+    match /guesses/{guessId} {
+      allow create: if true;
+      allow read: if true;
+      allow update, delete: if false;
+    }
+  }
+}

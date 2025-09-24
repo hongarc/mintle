@@ -1,0 +1,271 @@
+.game-header {
+  background: linear-gradient(135deg, #6aaa64 0%, #5a9a54 100%);
+  color: white;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.header-content {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.game-title h1 {
+  margin: 0;
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.game-subtitle {
+  margin: 4px 0 0 0;
+  font-size: 1rem;
+  opacity: 0.9;
+  font-weight: 300;
+}
+
+.game-info {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.timer-section,
+.attempts-section {
+  text-align: center;
+}
+
+.timer-label,
+.attempts-label {
+  font-size: 0.875rem;
+  opacity: 0.8;
+  margin-bottom: 4px;
+  font-weight: 300;
+}
+
+.countdown-timer {
+  font-size: 1.5rem;
+  font-weight: bold;
+  font-family: 'Courier New', monospace;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 8px 12px;
+  border-radius: 8px;
+  min-width: 80px;
+}
+
+.attempts-counter {
+  font-size: 1.25rem;
+  font-weight: bold;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 6px 10px;
+  border-radius: 6px;
+  min-width: 60px;
+}
+
+.game-status {
+  text-align: center;
+}
+
+.status-badge {
+  font-size: 1.125rem;
+  font-weight: bold;
+  padding: 8px 16px;
+  border-radius: 20px;
+  margin-bottom: 4px;
+}
+
+.status-badge.won {
+  background: rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+}
+
+.status-badge.lost {
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+}
+
+.next-game-info {
+  font-size: 0.875rem;
+  opacity: 0.9;
+}
+
+.new-game-button {
+  background: #ffffff;
+  color: #6aaa64;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  animation: pulse 2s infinite;
+}
+
+.new-game-button:hover {
+  background: #f0f0f0;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.new-game-button:active {
+  transform: translateY(0);
+}
+
+.progress-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.progress-fill {
+  height: 100%;
+  background: #ffffff;
+  transition: width 0.3s ease-in-out;
+  border-radius: 0 2px 2px 0;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .game-header {
+    padding: 16px;
+  }
+  
+  .header-content {
+    flex-direction: column;
+    text-align: center;
+    gap: 16px;
+  }
+  
+  .game-title h1 {
+    font-size: 2rem;
+  }
+  
+  .game-info {
+    gap: 20px;
+    justify-content: center;
+  }
+  
+  .countdown-timer {
+    font-size: 1.25rem;
+  }
+  
+  .attempts-counter {
+    font-size: 1.125rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .game-header {
+    padding: 12px;
+  }
+  
+  .game-title h1 {
+    font-size: 1.75rem;
+  }
+  
+  .game-subtitle {
+    font-size: 0.875rem;
+  }
+  
+  .game-info {
+    gap: 16px;
+  }
+  
+  .countdown-timer {
+    font-size: 1.125rem;
+    padding: 6px 10px;
+  }
+  
+  .attempts-counter {
+    font-size: 1rem;
+    padding: 4px 8px;
+  }
+  
+  .new-game-button {
+    padding: 10px 20px;
+    font-size: 0.875rem;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .game-header {
+    background: linear-gradient(135deg, #4a7c59 0%, #3a6c49 100%);
+  }
+  
+  .countdown-timer,
+  .attempts-counter {
+    background: rgba(0, 0, 0, 0.3);
+  }
+  
+  .status-badge.won,
+  .status-badge.lost {
+    background: rgba(0, 0, 0, 0.3);
+  }
+  
+  .new-game-button {
+    background: #2a2a2a;
+    color: #6aaa64;
+  }
+  
+  .new-game-button:hover {
+    background: #3a3a3a;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .game-header {
+    background: #000000;
+    border-bottom: 3px solid #ffffff;
+  }
+  
+  .countdown-timer,
+  .attempts-counter {
+    background: #ffffff;
+    color: #000000;
+    border: 2px solid #ffffff;
+  }
+  
+  .new-game-button {
+    background: #ffffff;
+    color: #000000;
+    border: 2px solid #000000;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .new-game-button {
+    animation: none;
+  }
+  
+  .new-game-button:hover {
+    transform: none;
+  }
+  
+  .progress-fill {
+    transition: none;
+  }
+}

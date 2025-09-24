@@ -1,0 +1,119 @@
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.game-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  gap: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+  text-align: center;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.error-container h2 {
+  color: #d73a49;
+  margin-bottom: 16px;
+  font-size: 1.5rem;
+}
+
+.error-container p {
+  color: #666;
+  margin-bottom: 24px;
+  font-size: 1.125rem;
+}
+
+.error-container button {
+  background: #6aaa64;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.error-container button:hover {
+  background: #5a9a54;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(106, 170, 100, 0.3);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .game-container {
+    padding: 16px;
+    gap: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .game-container {
+    padding: 12px;
+    gap: 12px;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .app {
+    background: linear-gradient(135deg, #1a1a1b 0%, #2d2d2d 100%);
+  }
+  
+  .error-container {
+    background: linear-gradient(135deg, #1a1a1b 0%, #2d2d2d 100%);
+    color: #d7dadc;
+  }
+  
+  .error-container h2 {
+    color: #ff6b6b;
+  }
+  
+  .error-container p {
+    color: #818384;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .app {
+    background: #ffffff;
+  }
+  
+  .error-container {
+    background: #ffffff;
+    border: 3px solid #000000;
+  }
+  
+  .error-container button {
+    background: #00a000;
+    border: 2px solid #000000;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .error-container button:hover {
+    transform: none;
+  }
+}
