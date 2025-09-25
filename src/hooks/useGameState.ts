@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import type { GameState, LetterFeedback, GameProgress } from '../types/game';
 import { evaluateGuess, isCorrectGuess } from '../lib/wordEvaluation';
+import { suggestHintWord } from '../lib/wordManager';
 import { isValidGuess, loadDictionary } from '../lib/dictionary';
 import { getCurrentHourWord } from '../lib/wordManager';
 import { hourIdUtc, millisecondsToNextHour } from '../lib/timeUtils';
@@ -13,9 +14,11 @@ interface UseGameStateReturn {
   submitGuess: (guess: string) => Promise<{ success: boolean; error?: string }>;
   updateCurrentGuess: (guess: string) => void;
   resetGame: () => Promise<void>;
+  getHint: () => Promise<string | null>;
   isLoading: boolean;
   error: string | null;
 }
+
 
 /**
  * Custom hook for managing game state
@@ -30,6 +33,11 @@ export function useGameState(): UseGameStateReturn {
     hourId: '',
     timeToNextHour: 0
   });
+
+  // Get a hint word
+  const getHint = useCallback(async (): Promise<string | null> => {
+    return suggestHintWord(gameState.guesses, gameState.feedback);
+  }, [gameState.guesses, gameState.feedback]);
   
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -222,6 +230,7 @@ export function useGameState(): UseGameStateReturn {
     submitGuess,
     updateCurrentGuess,
     resetGame,
+    getHint,
     isLoading,
     error
   };

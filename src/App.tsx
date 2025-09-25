@@ -13,9 +13,25 @@ import { ToastContainer } from './components/Toast';
 import './App.css';
 
 const GameContent: React.FC = () => {
-  const { gameState, submitGuess, updateCurrentGuess, resetGame, isLoading, error } = useGame();
+  const { gameState, submitGuess, updateCurrentGuess, resetGame, getHint, isLoading, error } = useGame();
   const { toasts, showToast, removeToast } = useToast();
   const [showResultModal, setShowResultModal] = useState(false);
+  const [hintUsed, setHintUsed] = useState(false);
+
+  // Reset hintUsed when the word changes (new hour)
+  React.useEffect(() => {
+    setHintUsed(false);
+  }, [gameState.currentWord]);
+
+  const handleHint = async () => {
+    if (hintUsed) return;
+    const hint = await getHint();
+    if (hint) {
+      updateCurrentGuess(hint);
+      setHintUsed(true);
+    }
+    // If no hint, do nothing
+  };
 
   const handleKeyPress = async (key: string) => {
     if (key === 'ENTER') {
@@ -42,6 +58,7 @@ const GameContent: React.FC = () => {
   const handleNewGame = async () => {
     await resetGame();
     setShowResultModal(false);
+    setHintUsed(false);
     showToast('New game started!', 'success');
   };
 
@@ -101,6 +118,8 @@ const GameContent: React.FC = () => {
         gameStatus={gameState.gameStatus}
         onNewGame={gameState.timeToNextHour <= 0 ? handleNewGame : undefined}
         showNewGameButton={gameState.timeToNextHour <= 0}
+        onHint={handleHint}
+        showHintButton={!hintUsed}
       />
 
       <main className="game-container">

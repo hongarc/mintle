@@ -2,7 +2,84 @@ import { getWordDocument, createWordDocument, FirestoreServiceError } from './fi
 import { getDeterministicSolutionWord, loadDictionary } from './dictionary';
 import { hourIdUtc } from './timeUtils';
 import { encryptWord, decryptWord, generateWordHash } from './encryption';
-import type { WordDocument } from '../types/game';
+import type { WordDocument, LetterFeedback } from '../types/game';
+
+
+/**
+ * Suggest a valid hint word based on current guesses and feedback
+ * @param guesses - Array of guessed words
+ * @param feedback - Array of feedback arrays for each guess
+ * @returns A word that matches all known constraints, or null if none
+ */
+export async function suggestHintWord(
+  guesses: string[],
+  feedback: LetterFeedback[][]
+): Promise<string | null> {
+
+  // Assume solutions are lowercase words
+  const solutions = Array.from((await loadDictionary()).solutions);
+
+  // Build constraints
+  const mustBe: (string | null)[] = [null, null, null, null, null];
+  const mustInclude = new Set<string>();
+  const mustNotInclude = new Set<string>();
+  const cannotBe: Record<number, Set<string>> = { 0: new Set(), 1: new Set(), 2: new Set(), 3: new Set(), 4: new Set() };
+
+  for (let g = 0; g < feedback.length; g++) {
+    for (let i = 0; i < feedback[g].length; i++) {
+      const letter = feedback[g][i].letter.toLowerCase();
+      const status = feedback[g][i].status;
+
+      if (status === "correct") {
+        mustBe[i] = letter;
+      } else if (status === "present") {
+        mustInclude.add(letter);
+        cannotBe[i].add(letter);
+      } else if (status === "absent") {
+        // Only mark absent if not seen as correct/present elsewhere
+        let foundElsewhere = false;
+        for (let j = 0; j < feedback[g].length; j++) {
+          if (j !== i && feedback[g][j].letter.toLowerCase() === letter && feedback[g][j].status !== "absent") {
+            foundElsewhere = true;
+            break;
+          }
+        }
+        if (!foundElsewhere) {
+          mustNotInclude.add(letter);
+        } else {
+          cannotBe[i].add(letter);
+        }
+      }
+    }
+  }
+
+  // Filter candidate words
+  const validWords = solutions.filter((word) => {
+    // Must match known positions
+    for (let i = 0; i < 5; i++) {
+      if (mustBe[i] && word[i] !== mustBe[i]) return false;
+      if (cannotBe[i].has(word[i])) return false;
+    }
+    // Must include all present letters
+    for (const ch of mustInclude) {
+      if (!word.includes(ch)) return false;
+    }
+    // Must exclude absent letters
+    for (const ch of mustNotInclude) {
+      if (word.includes(ch)) return false;
+    }
+    // Avoid repeating guesses
+    if (guesses.includes(word)) return false;
+    return true;
+  });
+  console.log("Hint candidates:", validWords.length);
+
+  if (validWords.length === 0) return null;
+  if (validWords.length === 1) return validWords[0];
+  // Pick a random valid word
+  return validWords[Math.floor(Math.random() * validWords.length)];
+}
+
 
 /**
  * Get or create the hourly word for a given hour ID

@@ -10,6 +10,8 @@ interface GameInfoSidebarProps {
   gameStatus: 'playing' | 'won' | 'lost';
   onNewGame?: () => void;
   showNewGameButton?: boolean;
+  onHint?: () => void;
+  showHintButton?: boolean;
 }
 
 export const GameInfoSidebar: React.FC<GameInfoSidebarProps> = ({
@@ -18,7 +20,9 @@ export const GameInfoSidebar: React.FC<GameInfoSidebarProps> = ({
   maxAttempts,
   gameStatus,
   onNewGame,
-  showNewGameButton = false
+  showNewGameButton = false,
+  onHint,
+  showHintButton = true
 }) => {
   const viewport = useViewport();
   const timeRemaining = formatTimeRemaining(timeToNextHour);
@@ -52,6 +56,15 @@ export const GameInfoSidebar: React.FC<GameInfoSidebarProps> = ({
             </button>
           )}
         </div>
+        {showHintButton && onHint && gameStatus === 'playing' && (
+          <button 
+            className="hint-button"
+            onClick={onHint}
+            data-testid="hint-button"
+          >
+            💡 Hint
+          </button>
+        )}
         
         <div className="info-section">
           <div className="info-item">

@@ -8,6 +8,7 @@ interface GameContextType {
   submitGuess: (guess: string) => Promise<{ success: boolean; error?: string }>;
   updateCurrentGuess: (guess: string) => void;
   resetGame: () => Promise<void>;
+  getHint: () => Promise<string | null>;
   isLoading: boolean;
   error: string | null;
 }
