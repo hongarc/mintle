@@ -29,42 +29,55 @@ const Key: React.FC<KeyProps> = ({
   className = '' 
 }) => {
   const keyRef = useRef<HTMLButtonElement>(null);
+  const viewport = useViewport();
 
   useEffect(() => {
     const keyElement = keyRef.current;
     if (!keyElement || disabled) return;
 
-    // Add touch-optimized event listeners with haptic feedback
-    const cleanup = addTouchOptimizedListeners(
-      keyElement,
-      () => {
-        onClick();
-        // Provide haptic feedback based on key type
-        if (letter === 'ENTER') {
-          triggerHapticFeedback('medium');
-        } else if (letter === '⌫') {
-          triggerHapticFeedback('light');
-        } else {
-          triggerHapticFeedback('light');
+    // Only add touch optimization on mobile devices
+    if (viewport.isMobile) {
+      const cleanup = addTouchOptimizedListeners(
+        keyElement,
+        () => {
+          onClick();
+          // Provide haptic feedback based on key type
+          if (letter === 'ENTER') {
+            triggerHapticFeedback('medium');
+          } else if (letter === '⌫') {
+            triggerHapticFeedback('light');
+          } else {
+            triggerHapticFeedback('light');
+          }
+        },
+        {
+          hapticFeedback: true,
+          preventDoubleClick: true,
         }
-      },
-      {
-        hapticFeedback: true,
-        preventDoubleClick: true,
-      }
-    );
+      );
 
-    return cleanup;
-  }, [onClick, disabled, letter]);
+      return cleanup;
+    }
+  }, [onClick, disabled, letter, viewport.isMobile]);
+
+  // Use regular onClick for desktop, touch-optimized for mobile
+  const handleClick = viewport.isMobile ? undefined : onClick;
 
   return (
     <button
       ref={keyRef}
       className={`keyboard-key ${status} ${className} interactive`}
-      onClick={onClick}
+      onClick={handleClick}
       disabled={disabled}
       data-testid={`keyboard-key-${letter}`}
       aria-label={`Key ${letter}`}
+      style={{
+        touchAction: 'manipulation',
+        WebkitTapHighlightColor: 'transparent',
+        WebkitTouchCallout: 'none',
+        WebkitUserSelect: 'none',
+        userSelect: 'none',
+      }}
     >
       {letter}
     </button>

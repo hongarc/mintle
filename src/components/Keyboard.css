@@ -135,69 +135,76 @@
   }
 }
 
-/* Responsive design */
+/* Responsive design - smaller mobile keyboard */
 @media (max-width: 480px) {
   .keyboard {
-    padding: 0 4px;
+    padding: 0 2px;
+    max-width: 100%;
   }
   
   .keyboard-row {
-    gap: 4px;
-    margin-bottom: 6px;
+    gap: 2px;
+    margin-bottom: 4px;
   }
   
   .keyboard-key {
-    min-height: 48px;
-    font-size: 12px;
+    min-height: 40px;
+    font-size: 11px;
+    /* Prevent double-tap zoom and improve touch response */
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
   }
   
   .letter-key {
-    min-width: 32px;
-    max-width: 32px;
+    min-width: 26px;
+    max-width: 26px;
   }
   
   .action-key {
-    min-width: 50px;
-    font-size: 10px;
+    min-width: 42px;
+    font-size: 9px;
   }
   
   .enter-key {
-    min-width: 50px;
+    min-width: 42px;
   }
   
   .backspace-key {
-    min-width: 50px;
-    font-size: 14px;
+    min-width: 42px;
+    font-size: 12px;
   }
 }
 
 @media (max-width: 360px) {
   .keyboard-row {
-    gap: 3px;
+    gap: 1px;
   }
   
   .keyboard-key {
-    min-height: 42px;
-    font-size: 11px;
+    min-height: 36px;
+    font-size: 10px;
   }
   
   .letter-key {
-    min-width: 28px;
-    max-width: 28px;
+    min-width: 22px;
+    max-width: 22px;
   }
   
   .action-key {
-    min-width: 45px;
-    font-size: 9px;
+    min-width: 38px;
+    font-size: 8px;
   }
   
   .enter-key {
-    min-width: 45px;
+    min-width: 38px;
   }
   
   .backspace-key {
-    min-width: 45px;
-    font-size: 12px;
+    min-width: 38px;
+    font-size: 10px;
   }
 }
 
@@ -266,39 +273,49 @@
   }
 }
 
-/* Enhanced touch device optimizations */
+/* Enhanced mobile keyboard - more compact */
+.keyboard.mobile {
+  max-width: 100%;
+  padding: 0 2px;
+}
+
+.keyboard.mobile .keyboard-row {
+  gap: 2px;
+  margin-bottom: 3px;
+}
+
 .keyboard.mobile .keyboard-key {
-  /* Larger touch targets for mobile */
-  min-height: 52px;
-  font-size: 14px;
-  /* Better touch feedback */
-  transition: all 0.1s ease-in-out;
+  min-height: 38px;
+  font-size: 12px;
+  /* Prevent touch issues */
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .keyboard.mobile .letter-key {
-  min-width: 36px;
-  max-width: 36px;
+  min-width: 24px;
+  max-width: 24px;
 }
 
 .keyboard.mobile .action-key {
-  min-width: 60px;
-  font-size: 11px;
+  min-width: 40px;
+  font-size: 9px;
 }
 
 .keyboard.mobile.landscape .keyboard-key {
-  /* Compact for landscape mobile */
-  min-height: 44px;
-  font-size: 12px;
+  /* Even more compact for landscape mobile */
+  min-height: 32px;
+  font-size: 10px;
 }
 
 .keyboard.mobile.landscape .letter-key {
-  min-width: 32px;
-  max-width: 32px;
+  min-width: 20px;
+  max-width: 20px;
 }
 
 .keyboard.mobile.landscape .action-key {
-  min-width: 50px;
-  font-size: 10px;
+  min-width: 35px;
+  font-size: 8px;
 }
 
 .keyboard.tablet .keyboard-key {
@@ -345,22 +362,62 @@
   }
 }
 
-/* Landscape orientation adjustments */
-@media (orientation: landscape) and (max-height: 500px) {
+/* Very compact keyboard for small screens */
+@media (max-width: 320px) {
   .keyboard {
-    padding: 0 4px;
+    padding: 0 1px;
   }
   
   .keyboard-row {
-    margin-bottom: 4px;
+    gap: 1px;
+    margin-bottom: 2px;
   }
   
   .keyboard-key {
-    min-height: 40px;
-    font-size: 11px;
+    min-height: 32px;
+    font-size: 9px;
+    border-radius: 2px;
+  }
+  
+  .letter-key {
+    min-width: 20px;
+    max-width: 20px;
+  }
+  
+  .action-key {
+    min-width: 32px;
+    font-size: 7px;
+  }
+}
+
+/* Landscape orientation adjustments */
+@media (orientation: landscape) and (max-height: 500px) {
+  .keyboard {
+    padding: 0 2px;
+  }
+  
+  .keyboard-row {
+    margin-bottom: 2px;
+    gap: 1px;
+  }
+  
+  .keyboard-key {
+    min-height: 28px;
+    font-size: 9px;
+  }
+  
+  .letter-key {
+    min-width: 18px;
+    max-width: 18px;
+  }
+  
+  .action-key {
+    min-width: 30px;
+    font-size: 7px;
   }
   
   .keyboard-status {
-    margin-top: 8px;
+    margin-top: 4px;
+    font-size: 10px;
   }
 }
